@@ -1,0 +1,75 @@
+entity Gang {
+  name String required minlength(3)
+  handle String required minlength(2)
+  htmlContent TextBlob
+  description String minlength(3)
+  announcement String minlength(3)  
+  logo String minlength(3)
+}
+
+enum PlaceType{
+  RESTAURANT, CINEMA, PARK, ROADTRIP, BADMINTON, PADEL, TENNIS, GYM, ICESKATING, INNEBANDY
+}
+
+entity Place{
+	name String required
+    address String
+    type PlaceType
+    phone String
+    privaate Boolean
+}
+
+entity Event {
+  place Place required
+  type EventType
+  date Instant
+  name String
+  startTime String
+  endTime String
+  nonmembers String
+  confirmed Boolean
+  cancelled Boolean
+  minimum Integer
+  maximum Integer
+  ideal Integer  
+  cost Float
+  share Float
+}
+
+enum EventType{
+  SOCIAL, SPORT, EXERCISE, COMPETITION, COMMUNITY, OTHERS
+}
+
+entity Owner {
+ member Member
+}
+
+entity Member {
+  name String required minlength(2)
+  email String
+  phone String
+  guest Boolean
+}
+
+entity Participant {
+   sure Boolean
+   booker Boolean
+   waiting Boolean
+   share Integer
+}
+
+relationship ManyToOne {
+  Gang{user(login)} to User
+  
+  Event{gang(name)} to Gang
+  Member{gang} to Gang
+  Place{gang} to Gang
+  
+  Owner{member} to Member
+  Participant{member} to Member
+  
+  Event{participant} to Participant
+  Owner{gang} to Gang
+}
+
+paginate Event, Member with infinite-scroll

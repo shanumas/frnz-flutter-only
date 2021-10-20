@@ -1,0 +1,28 @@
+{
+  "kompiApp": {
+    "memberStatus": {
+      "home": {
+        "title": "Member Statuses",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Member Status",
+        "createOrEditLabel": "Create or edit a Member Status",
+        "notFound": "No Member Statuses found"
+      },
+      "created": "A new Member Status is created with identifier {{ param }}",
+      "updated": "A Member Status is updated with identifier {{ param }}",
+      "deleted": "A Member Status is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Member Status {{ id }}?"
+      },
+      "detail": {
+        "title": "Member Status"
+      },
+      "id": "ID",
+      "sure": "Sure",
+      "booker": "Booker",
+      "waiting": "Waiting",
+      "share": "Share",
+      "member": "Member"
+    }
+  }
+}

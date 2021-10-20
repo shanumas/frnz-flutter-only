@@ -1,0 +1,39 @@
+{
+  "name": "MemberStatus",
+  "fields": [
+    {
+      "fieldName": "sure",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "booker",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "waiting",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "share",
+      "fieldType": "Integer"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "member",
+      "otherEntityRelationshipName": "memberStatus",
+      "relationshipName": "member"
+    }
+  ],
+  "entityTableName": "member_status",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210926154949"
+}
