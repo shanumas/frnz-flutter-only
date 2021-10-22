@@ -1,0 +1,25 @@
+{
+  "frnzApp": {
+    "moderator": {
+      "home": {
+        "title": "Moderators",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Moderator",
+        "createOrEditLabel": "Create or edit a Moderator",
+        "notFound": "No Moderators found"
+      },
+      "created": "A new Moderator is created with identifier {{ param }}",
+      "updated": "A Moderator is updated with identifier {{ param }}",
+      "deleted": "A Moderator is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Moderator {{ id }}?"
+      },
+      "detail": {
+        "title": "Moderator"
+      },
+      "id": "ID",
+      "gang": "Gang",
+      "member": "Member"
+    }
+  }
+}

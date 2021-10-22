@@ -1,0 +1,95 @@
+{
+  "name": "Event",
+  "fields": [
+    {
+      "fieldName": "type",
+      "fieldType": "EventType",
+      "fieldValues": "SOCIAL,SPORT,EXERCISE,COMPETITION,COMMUNITY,OTHERS"
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "startTime",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "endTime",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nonmembers",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "confirmed",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "cancelled",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "recurring",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "minimum",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "maximum",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "bookLimit",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "cost",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "share",
+      "fieldType": "Float"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "place",
+      "otherEntityRelationshipName": "event",
+      "relationshipName": "place",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "participant",
+      "otherEntityRelationshipName": "event",
+      "relationshipName": "participant",
+      "otherEntityField": "member"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "gang",
+      "otherEntityRelationshipName": "event",
+      "relationshipName": "gang",
+      "otherEntityField": "name"
+    }
+  ],
+  "entityTableName": "event",
+  "dto": "no",
+  "pagination": "infinite-scroll",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20211022064854"
+}

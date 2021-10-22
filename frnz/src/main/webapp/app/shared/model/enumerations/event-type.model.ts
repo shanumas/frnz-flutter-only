@@ -1,0 +1,13 @@
+export enum EventType {
+  SOCIAL = 'SOCIAL',
+
+  SPORT = 'SPORT',
+
+  EXERCISE = 'EXERCISE',
+
+  COMPETITION = 'COMPETITION',
+
+  COMMUNITY = 'COMMUNITY',
+
+  OTHERS = 'OTHERS',
+}

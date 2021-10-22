@@ -1,0 +1,44 @@
+{
+  "name": "Participant",
+  "fields": [
+    {
+      "fieldName": "sure",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "host",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "booker",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "waiting",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "share",
+      "fieldType": "Integer"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "member",
+      "otherEntityRelationshipName": "participant",
+      "relationshipName": "member",
+      "otherEntityField": "name"
+    }
+  ],
+  "entityTableName": "participant",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20211022064857"
+}

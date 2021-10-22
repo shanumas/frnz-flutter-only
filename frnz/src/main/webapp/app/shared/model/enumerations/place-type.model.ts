@@ -1,0 +1,21 @@
+export enum PlaceType {
+  RESTAURANT = 'RESTAURANT',
+
+  CINEMA = 'CINEMA',
+
+  PARK = 'PARK',
+
+  ROADTRIP = 'ROADTRIP',
+
+  BADMINTON = 'BADMINTON',
+
+  PADEL = 'PADEL',
+
+  TENNIS = 'TENNIS',
+
+  GYM = 'GYM',
+
+  ICESKATING = 'ICESKATING',
+
+  INNEBANDY = 'INNEBANDY',
+}

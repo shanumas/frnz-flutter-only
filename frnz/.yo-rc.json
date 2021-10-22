@@ -15,7 +15,7 @@
     "blueprints": [],
     "otherModules": [],
     "pages": [],
-    "creationTimestamp": 1634765661873,
+    "creationTimestamp": 1634885114843,
     "serviceDiscoveryType": "eureka",
     "reactive": false,
     "authenticationType": "jwt",
@@ -39,11 +39,13 @@
     "nativeLanguage": "en",
     "monorepository": true,
     "skipCommitHook": true,
-    "jwtSecretKey": "NDBiODQxMmM0MmIzNjg1NzU3MjFiYTZmZmEyY2UyYzJhYWNjODc4ZTI2MjI0OWNmZDliNjk1OTVjM2EzZmY5YzJhMzhjMWM2OGQ2ZWJmOTgyYThiYjY5MzNjM2U0MDA2MTQ2ZjdkOGQzYTNlZDU2NGU2ZTAzYjQ0MWQxNDllMTI=",
+    "jwtSecretKey": "YmE1NTJkZjU0ODhiNGJmMWNiNmFmZmFhMmI1NDYxNWM2OTA4YjI2YmVkNDAyZWUxYjUyM2I1NTk2ZjcwY2IxNGUxZDM5NDY0ZjQ5M2EyMjY5YzZjYjA5NTM5NDBjZTk0MGQ3ZTAxZTEzOGJlMGY5ZmM1OGEzYmU5YzgyMTQ0N2Q=",
     "devServerPort": 9060,
     "clientPackageManager": "npm",
     "clientThemeVariant": "",
     "languages": ["en"],
-    "enableGradleEnterprise": false
+    "enableGradleEnterprise": false,
+    "entities": ["Gang", "Place", "Event", "Moderator", "Member", "Participant"],
+    "lastLiquibaseTimestamp": 1634885337000
   }
 }

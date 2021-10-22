@@ -1,0 +1,30 @@
+{
+  "name": "Moderator",
+  "fields": [],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "gang",
+      "otherEntityRelationshipName": "moderator",
+      "relationshipName": "gang",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "member",
+      "otherEntityRelationshipName": "moderator",
+      "relationshipName": "member",
+      "otherEntityField": "name"
+    }
+  ],
+  "entityTableName": "moderator",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20211022064855"
+}
