@@ -23,6 +23,7 @@
       "name": "Name",
       "startTime": "Start Time",
       "endTime": "End Time",
+      "duration": "Duration",
       "nonmembers": "Nonmembers",
       "confirmed": "Confirmed",
       "cancelled": "Cancelled",

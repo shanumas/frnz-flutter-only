@@ -5,7 +5,7 @@ import { Translate } from 'react-jhipster';
 import { Col, Row } from 'reactstrap';
 
 const Footer = () => (
-  <div className="footer page-content">
+  <div className="footer page-content d-none">
     <Row>
       <Col md="12">
         <p>
