@@ -51,13 +51,13 @@ export const EventUpdate = (props: RouteComponentProps<{ id: string }>) => {
 
   const saveEntity = values => {
     values.date = convertDateTimeToServer(values.date);
-
     const entity = {
       ...eventEntity,
       ...values,
       place: places.find(it => it.id.toString() === values.placeId.toString()),
       participant: participants.find(it => it.id.toString() === values.participantId.toString()),
       gang: gangs.find(it => it.id.toString() === values.gangId.toString()),
+      nonmembers: values.members.join(';')
     };
 
     if (isNew) {
@@ -79,6 +79,7 @@ export const EventUpdate = (props: RouteComponentProps<{ id: string }>) => {
         placeId: eventEntity?.place?.id,
         participantId: eventEntity?.participant?.id,
         gangId: eventEntity?.gang?.id,
+        members: eventEntity?.nonmembers ? (eventEntity.nonmembers.split(';').length > 0 ? (eventEntity.nonmembers.split(';')) : ([';', ';', ';'])) : [],
       };
 
   return (
@@ -86,7 +87,6 @@ export const EventUpdate = (props: RouteComponentProps<{ id: string }>) => {
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="frnzApp.event.home.createOrEditLabel" data-cy="EventCreateUpdateHeading">
-            <Translate contentKey="frnzApp.event.home.createOrEditLabel">Create or edit a Event</Translate>
           </h2>
         </Col>
       </Row>
@@ -96,19 +96,21 @@ export const EventUpdate = (props: RouteComponentProps<{ id: string }>) => {
             <p>Loading...</p>
           ) : (
             <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
-              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/event" replace color="info" className="w-25">
-                <FontAwesomeIcon icon="arrow-left" />
+              <div style={{ position: 'fixed', right: '-60px', top: '400px', }}>
+                <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/event" replace color="info" className="w-50">
+                  <FontAwesomeIcon icon="arrow-left" />
+                  &nbsp;
+                  <span className="d-none d-md-inline">
+                    <Translate contentKey="entity.action.back">Back</Translate>
+                  </span>
+                </Button>
                 &nbsp;
-                <span className="d-none d-md-inline">
-                  <Translate contentKey="entity.action.back">Back</Translate>
-                </span>
-              </Button>
-              &nbsp;
-              <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating} className="w-25">
-                <FontAwesomeIcon icon="save" />
-                &nbsp;
-                <Translate contentKey="entity.action.save">Save</Translate>
-              </Button>
+                <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating} className="w-50">
+                  <FontAwesomeIcon icon="save" />
+                  &nbsp;
+                  <Translate contentKey="entity.action.save">Save</Translate>
+                </Button>
+              </div>
               {!isNew ? (
                 <ValidatedField
                   name="id"
@@ -154,13 +156,17 @@ export const EventUpdate = (props: RouteComponentProps<{ id: string }>) => {
                   ))
                   : null}
               </ValidatedField>
-              <ValidatedField
-                label={translate('frnzApp.event.nonmembers')}
-                id="event-nonmembers"
-                name="nonmembers"
-                data-cy="nonmembers"
-                type="text"
-              />
+              {
+                eventEntity.nonmembers?.split(';')?.map(function (object, index: number) {
+                  const item = 'members[' + index.toString() + ']'
+                  return <ValidatedField className="col-4 d-inline-block" key={index}
+                    id={item}
+                    name={item}
+                    data-cy={item}
+                    type="text"
+                  />
+                })
+              }
               <ValidatedField label={translate('frnzApp.event.cost')} id="event-cost" name="cost" data-cy="cost" type="text" />
               <ValidatedField label={translate('frnzApp.event.duration')} id="event-endTime" name="endTime" data-cy="endTime" type="text" />
               <ValidatedField

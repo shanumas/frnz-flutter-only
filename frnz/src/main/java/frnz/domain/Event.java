@@ -36,7 +36,7 @@ public class Event implements Serializable {
     private String endTime;
 
     @Field("nonmembers")
-    private String nonmembers;
+    private String nonmembers = ";;;;";
 
     @Field("confirmed")
     private Boolean confirmed;

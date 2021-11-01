@@ -93,22 +93,68 @@ export const Event = (props: RouteComponentProps<{ url: string }>) => {
 
   const { match } = props;
 
+  const [filteredEvents, setFilter] = useState(eventList)
+
+  const filter = event => {
+    let list: any
+    if (event) {
+      if (event.target.value === 'all') {
+        list = eventList
+      }
+      else if (event.target.value === 'lastweek') {
+        list = eventList.filter(item => getDateDifference(item.date) <= -1 && getDateDifference(item.date) >= -6)
+      }
+      else if (event.target.value === 'thisweek') {
+        list = eventList.filter(item => getDateDifference(item.date) >= 0 && getDateDifference(item.date) <= 6)
+      }
+      else if (event.target.value === 'nextweek') {
+        list = eventList.filter(item => getDateDifference(item.date) >= 7 && getDateDifference(item.date) <= 13)
+      }
+      else if (event.target.value === 'today') {
+        list = eventList.filter(item => getDateDifference(item.date) === 0)
+      }
+      else if (event.target.value === 'tomorrow') {
+        list = eventList.filter(item => getDateDifference(item.date) === 1)
+      }
+      else if (event.target.value === 'yesterday') {
+        list = eventList.filter(item => getDateDifference(item.date) === -1)
+      }
+    }
+    else {
+      list = eventList.filter(item => getDateDifference(item.date) === 0)
+    }
+
+    setFilter(list)
+  };
+
   return (
     <div>
-      <h2 id="event-heading" data-cy="EventHeading">
-        <Translate contentKey="frnzApp.event.home.title">Events</Translate>
-        <div className="d-flex justify-content-end">
-          <Button className="mr-2" color="info" onClick={handleSyncList} disabled={loading}>
-            <FontAwesomeIcon icon="sync" spin={loading} />{' '}
-            <Translate contentKey="frnzApp.event.home.refreshListLabel">Refresh List</Translate>
-          </Button>
-          <Link to={`${match.url}/new`} className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
-            <FontAwesomeIcon icon="plus" />
-            &nbsp;
-            <Translate contentKey="frnzApp.event.home.createLabel">Create new Event</Translate>
-          </Link>
-        </div>
-      </h2>
+      <div className="row mb-2 text-lowercase position-sticky">
+        <Link to={`${match.url}/new`} className="btn btn-success jh-create-entity col-sm-2 col-3 order-2 " id="jh-create-entity" data-cy="entityCreateButton">
+          Add event
+        </Link>
+        <button value="all" className="btn btn-light filter-button col-sm-2 col-3 smallText" onClick={filter}>
+          Show all
+        </button>
+        <button value="lastweek" className="btn btn-light filter-button col-sm-2 col-3 smallText" onClick={filter}>
+          Lastweek
+        </button>
+        <button value="today" className="btn btn-light filter-button col-sm-2 col-3 smallText" onClick={filter}>
+          Today
+        </button>
+        <button value="tomorrow" className="btn btn-light filter-button col-sm-2 col-3 smallText" onClick={filter}>
+          Tomorrow
+        </button>
+        <button value="thisweek" className="btn btn-light filter-button col-sm-2 col-3 smallText" onClick={filter} >
+          Thisweek
+        </button>
+        <button value="nextweek" className="btn btn-light filter-button col-sm-2 col-3 smallText" onClick={filter} >
+          Nextweek
+        </button>
+        <button value="yesterday" className="btn btn-light filter-button col-sm-2 col-3 smallText" onClick={filter}>
+          Yesterday
+        </button>
+      </div>
       <div className="table-responsive">
         <InfiniteScroll
           pageStart={paginationState.activePage}
@@ -118,124 +164,69 @@ export const Event = (props: RouteComponentProps<{ url: string }>) => {
           threshold={0}
           initialLoad={false}
         >
-          {eventList && eventList.length > 0 ? (
-            <Table responsive>
-              <thead>
-                <tr>
-                  <th className="hand" onClick={sort('id')}>
-                    <Translate contentKey="frnzApp.event.id">ID</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('type')}>
-                    <Translate contentKey="frnzApp.event.type">Type</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('date')}>
-                    <Translate contentKey="frnzApp.event.date">Date</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('name')}>
-                    <Translate contentKey="frnzApp.event.name">Name</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('startTime')}>
-                    <Translate contentKey="frnzApp.event.startTime">Start Time</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('endTime')}>
-                    <Translate contentKey="frnzApp.event.endTime">End Time</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('nonmembers')}>
-                    <Translate contentKey="frnzApp.event.nonmembers">Nonmembers</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('confirmed')}>
-                    <Translate contentKey="frnzApp.event.confirmed">Confirmed</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('cancelled')}>
-                    <Translate contentKey="frnzApp.event.cancelled">Cancelled</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('recurring')}>
-                    <Translate contentKey="frnzApp.event.recurring">Recurring</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('minimum')}>
-                    <Translate contentKey="frnzApp.event.minimum">Minimum</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('maximum')}>
-                    <Translate contentKey="frnzApp.event.maximum">Maximum</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('bookLimit')}>
-                    <Translate contentKey="frnzApp.event.bookLimit">Book Limit</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('cost')}>
-                    <Translate contentKey="frnzApp.event.cost">Cost</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('share')}>
-                    <Translate contentKey="frnzApp.event.share">Share</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th>
-                    <Translate contentKey="frnzApp.event.place">Place</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th>
-                    <Translate contentKey="frnzApp.event.participant">Participant</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th>
-                    <Translate contentKey="frnzApp.event.gang">Gang</Translate> <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th />
-                </tr>
-              </thead>
-              <tbody>
-                {eventList.map((event, i) => (
-                  <tr key={`entity-${i}`} data-cy="entityTable">
-                    <td>
-                      <Button tag={Link} to={`${match.url}/${event.id}`} color="link" size="sm">
-                        {event.id}
-                      </Button>
-                    </td>
-                    <td>
-                      <Translate contentKey={`frnzApp.EventType.${event.type}`} />
-                    </td>
-                    <td>{event.date ? <TextFormat type="date" value={event.date} format={APP_DATE_FORMAT} /> : null}</td>
-                    <td>{event.name}</td>
-                    <td>{event.startTime}</td>
-                    <td>{event.endTime}</td>
-                    <td>{event.nonmembers}</td>
-                    <td>{event.confirmed ? 'true' : 'false'}</td>
-                    <td>{event.cancelled ? 'true' : 'false'}</td>
-                    <td>{event.recurring ? 'true' : 'false'}</td>
-                    <td>{event.minimum}</td>
-                    <td>{event.maximum}</td>
-                    <td>{event.bookLimit}</td>
-                    <td>{event.cost}</td>
-                    <td>{event.share}</td>
-                    <td>{event.place ? <Link to={`place/${event.place.id}`}>{event.place.name}</Link> : ''}</td>
-                    <td>{event.participant ? <Link to={`participant/${event.participant.id}`}>{event.participant.member}</Link> : ''}</td>
-                    <td>{event.gang ? <Link to={`gang/${event.gang.id}`}>{event.gang.name}</Link> : ''}</td>
-                    <td className="text-right">
-                      <div className="btn-group flex-btn-group-container">
-                        <Button tag={Link} to={`${match.url}/${event.id}`} color="info" size="sm" data-cy="entityDetailsButton">
-                          <FontAwesomeIcon icon="eye" />{' '}
-                          <span className="d-none d-md-inline">
-                            <Translate contentKey="entity.action.view">View</Translate>
-                          </span>
-                        </Button>
-                        <Button tag={Link} to={`${match.url}/${event.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
+          {filteredEvents && filteredEvents.length > 0 ? (
+            <div className="row p-0 m-0">
+              {filteredEvents.map((event, i) => (
+                <div key={`entity-${i}`} data-cy="entityTable" className="col-xl-3 col-lg-4 col-md-6 col-xs-12 p-0 m-0">
+                  <div className="card p-0 mb-2 rounded shadow-sm p-1 m-0">
+                    <div className="card-header d-flex  justify-content-around font-weight-bold p-0 border-bottom">
+                      <div className="col-6">
+                        <div>
+                          {event.name}
+                        </div>
+                        <div>
+                          {event.place ? event.place.name : ''}
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div>
+                          {getDate(event.date)}
+                        </div>
+                        <div>
+                          {event.startTime} to {event.endTime}
+                        </div>
+                        <div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="card-body p-2 border-bottom position-relative">
+
+                      <div className="d-flex flex-wrap">
+                        {event.nonmembers ? event.nonmembers.split(';').map((name, count) => (
+                          <strong className="p-1 m-1 rounded border border-primary" key={`entity-${count}`} data-cy="entityTable">
+                            {name}
+                          </strong>
+                        )) : ''}
+                        <button className="btn btn-sm">+</button>
+                      </div>
+                      <div>
+                        court: 1 | code: 3456 | cost: {event.cost} | share: {event.share}
+                      </div>
+                      <div className="d-flex  justify-content-around">
+                        <Button tag={Link} to={`${match.url}/${event.id}/edit`} color="info" size="sm" data-cy="entityEditButton">
                           <FontAwesomeIcon icon="pencil-alt" />{' '}
                           <span className="d-none d-md-inline">
                             <Translate contentKey="entity.action.edit">Edit</Translate>
                           </span>
                         </Button>
-                        <Button tag={Link} to={`${match.url}/${event.id}/delete`} color="danger" size="sm" data-cy="entityDeleteButton">
+                        <Button tag={Link} to={`${match.url}/${event.id}/delete`} color="primary" size="sm" data-cy="entityDeleteButton">
                           <FontAwesomeIcon icon="trash" />{' '}
                           <span className="d-none d-md-inline">
                             <Translate contentKey="entity.action.delete">Delete</Translate>
                           </span>
                         </Button>
+                        <button className="btn btn-sm border-dark rounded"> confirm booking</button>
                       </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
+                    </div>
+                    <small className="text-muted">Last updated today 7.00 am</small>
+                  </div>
+                </div>
+              ))}
+            </div>
           ) : (
             !loading && (
               <div className="alert alert-warning">
-                <Translate contentKey="frnzApp.event.home.notFound">No Events found</Translate>
+                <Translate contentKey="kompiApp.event.home.notFound">No Events found</Translate>
               </div>
             )
           )}
@@ -246,3 +237,50 @@ export const Event = (props: RouteComponentProps<{ url: string }>) => {
 };
 
 export default Event;
+
+function getDateDifference(date): number {
+  date = new Date(Date.parse(date))
+  const today = new Date()
+  const dateDifference = date.getDate() - today.getDate()
+  return dateDifference
+}
+
+const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+function getDate(date) {
+  date = new Date(Date.parse(date))
+  const today = new Date()
+  let day_string
+
+
+
+  if (date.getFullYear() === today.getFullYear()) {
+    if (date.getMonth() === today.getMonth()) {
+      const dateDifference = date.getDate() - today.getDate()
+      if (dateDifference === 0) {
+        return 'Today'
+      }
+      else if (dateDifference === 1) {
+        return 'Tomorrow'
+      }
+      else if (dateDifference === -1) {
+        return 'Yesterday'
+      }
+      else if (dateDifference > 1 && dateDifference <= 6) {
+        return 'This ' + days[date.getDay()]
+      }
+      else if (dateDifference >= 7 && dateDifference <= 13) {
+        return 'Next ' + days[date.getDay()]
+      }
+      else if (dateDifference <= -1 && dateDifference > -7) {
+        return 'Last ' + days[date.getDay()]
+      }
+      else {
+        return date
+      }
+    }
+  }
+  else {
+    return date ? <TextFormat type="date" value={date} format={APP_DATE_FORMAT} /> : null
+  }
+}
