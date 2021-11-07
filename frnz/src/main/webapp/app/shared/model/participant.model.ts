@@ -1,4 +1,5 @@
 import { IMember } from 'app/shared/model/member.model';
+import { IEvent } from 'app/shared/model/event.model';
 
 export interface IParticipant {
   id?: string;
@@ -8,6 +9,7 @@ export interface IParticipant {
   waiting?: boolean | null;
   share?: number | null;
   member?: IMember | null;
+  event?: IEvent | null;
 }
 
 export const defaultValue: Readonly<IParticipant> = {

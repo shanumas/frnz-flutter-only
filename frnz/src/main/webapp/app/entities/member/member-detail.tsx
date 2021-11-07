@@ -54,9 +54,18 @@ export const MemberDetail = (props: RouteComponentProps<{ id: string }>) => {
           </dt>
           <dd>{memberEntity.guest ? 'true' : 'false'}</dd>
           <dt>
-            <Translate contentKey="frnzApp.member.gang">Gang</Translate>
+            <Translate contentKey="frnzApp.member.event">Event</Translate>
           </dt>
-          <dd>{memberEntity.gang ? memberEntity.gang.name : ''}</dd>
+          <dd>
+            {memberEntity.events
+              ? memberEntity.events.map((val, i) => (
+                  <span key={val.id}>
+                    <a>{val.id}</a>
+                    {memberEntity.events && i === memberEntity.events.length - 1 ? '' : ', '}
+                  </span>
+                ))
+              : null}
+          </dd>
         </dl>
         <Button tag={Link} to="/member" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

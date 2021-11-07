@@ -35,8 +35,13 @@ public class Participant implements Serializable {
 
     @DBRef
     @Field("member")
-    @JsonIgnoreProperties(value = { "gang" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "events", "gangs" }, allowSetters = true)
     private Member member;
+
+    @DBRef
+    @Field("event")
+    @JsonIgnoreProperties(value = { "place", "gangs", "members" }, allowSetters = true)
+    private Event event;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -128,6 +133,19 @@ public class Participant implements Serializable {
 
     public Participant member(Member member) {
         this.setMember(member);
+        return this;
+    }
+
+    public Event getEvent() {
+        return this.event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
+    public Participant event(Event event) {
+        this.setEvent(event);
         return this;
     }
 

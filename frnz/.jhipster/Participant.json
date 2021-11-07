@@ -29,6 +29,12 @@
       "otherEntityRelationshipName": "participant",
       "relationshipName": "member",
       "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "event",
+      "otherEntityRelationshipName": "participant",
+      "relationshipName": "event"
     }
   ],
   "entityTableName": "participant",
@@ -40,5 +46,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": "*",
-  "changelogDate": "20211022064857"
+  "changelogDate": "20211107095510"
 }

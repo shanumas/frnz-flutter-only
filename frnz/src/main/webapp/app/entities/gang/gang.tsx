@@ -70,6 +70,12 @@ export const Gang = (props: RouteComponentProps<{ url: string }>) => {
                 <th>
                   <Translate contentKey="frnzApp.gang.user">User</Translate>
                 </th>
+                <th>
+                  <Translate contentKey="frnzApp.gang.member">Member</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="frnzApp.gang.event">Event</Translate>
+                </th>
                 <th />
               </tr>
             </thead>
@@ -87,7 +93,36 @@ export const Gang = (props: RouteComponentProps<{ url: string }>) => {
                   <td>{gang.description}</td>
                   <td>{gang.announcement}</td>
                   <td>{gang.logo}</td>
-                  <td>{gang.user ? gang.user.login : ''}</td>
+                  <td>
+                    {gang.users
+                      ? gang.users.map((val, j) => (
+                          <span key={j}>
+                            {val.login}
+                            {j === gang.users.length - 1 ? '' : ', '}
+                          </span>
+                        ))
+                      : null}
+                  </td>
+                  <td>
+                    {gang.members
+                      ? gang.members.map((val, j) => (
+                          <span key={j}>
+                            <Link to={`member/${val.id}`}>{val.name}</Link>
+                            {j === gang.members.length - 1 ? '' : ', '}
+                          </span>
+                        ))
+                      : null}
+                  </td>
+                  <td>
+                    {gang.events
+                      ? gang.events.map((val, j) => (
+                          <span key={j}>
+                            <Link to={`event/${val.id}`}>{val.id}</Link>
+                            {j === gang.events.length - 1 ? '' : ', '}
+                          </span>
+                        ))
+                      : null}
+                  </td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${gang.id}`} color="info" size="sm" data-cy="entityDetailsButton">

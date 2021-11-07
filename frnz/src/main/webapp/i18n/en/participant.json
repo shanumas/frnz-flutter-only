@@ -23,7 +23,8 @@
       "booker": "Booker",
       "waiting": "Waiting",
       "share": "Share",
-      "member": "Member"
+      "member": "Member",
+      "event": "Event"
     }
   }
 }

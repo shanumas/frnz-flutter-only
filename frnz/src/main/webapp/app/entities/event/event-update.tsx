@@ -6,15 +6,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IPlace } from 'app/shared/model/place.model';
 import { getEntities as getPlaces } from 'app/entities/place/place.reducer';
-import { IParticipant } from 'app/shared/model/participant.model';
-import { getEntities as getParticipants } from 'app/entities/participant/participant.reducer';
 import { IGang } from 'app/shared/model/gang.model';
 import { getEntities as getGangs } from 'app/entities/gang/gang.reducer';
+import { IMember } from 'app/shared/model/member.model';
+import { getEntities as getMembers } from 'app/entities/member/member.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './event.reducer';
 import { IEvent } from 'app/shared/model/event.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { EventType } from 'app/shared/model/enumerations/event-type.model';
 
 export const EventUpdate = (props: RouteComponentProps<{ id: string }>) => {
   const dispatch = useAppDispatch();
@@ -22,13 +23,13 @@ export const EventUpdate = (props: RouteComponentProps<{ id: string }>) => {
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
   const places = useAppSelector(state => state.place.entities);
-  const participants = useAppSelector(state => state.participant.entities);
   const gangs = useAppSelector(state => state.gang.entities);
+  const members = useAppSelector(state => state.member.entities);
   const eventEntity = useAppSelector(state => state.event.entity);
   const loading = useAppSelector(state => state.event.loading);
   const updating = useAppSelector(state => state.event.updating);
   const updateSuccess = useAppSelector(state => state.event.updateSuccess);
-
+  const eventTypeValues = Object.keys(EventType);
   const handleClose = () => {
     props.history.push('/event');
   };
@@ -39,8 +40,8 @@ export const EventUpdate = (props: RouteComponentProps<{ id: string }>) => {
     }
 
     dispatch(getPlaces({}));
-    dispatch(getParticipants({}));
     dispatch(getGangs({}));
+    dispatch(getMembers({}));
   }, []);
 
   useEffect(() => {
@@ -51,13 +52,11 @@ export const EventUpdate = (props: RouteComponentProps<{ id: string }>) => {
 
   const saveEntity = values => {
     values.date = convertDateTimeToServer(values.date);
+
     const entity = {
       ...eventEntity,
       ...values,
-      place: places.find(it => it.id.toString() === values.placeId.toString()),
-      participant: participants.find(it => it.id.toString() === values.participantId.toString()),
-      gang: gangs.find(it => it.id.toString() === values.gangId.toString()),
-      nonmembers: values.members.join(';')
+      place: places.find(it => it.id.toString() === values.place.toString()),
     };
 
     if (isNew) {
@@ -70,23 +69,21 @@ export const EventUpdate = (props: RouteComponentProps<{ id: string }>) => {
   const defaultValues = () =>
     isNew
       ? {
-        date: displayDefaultDateTime(),
-      }
+          date: displayDefaultDateTime(),
+        }
       : {
-        type: 'SOCIAL',
-        ...eventEntity,
-        date: convertDateTimeFromServer(eventEntity.date),
-        placeId: eventEntity?.place?.id,
-        participantId: eventEntity?.participant?.id,
-        gangId: eventEntity?.gang?.id,
-        members: eventEntity?.nonmembers ? (eventEntity.nonmembers.split(';').length > 0 ? (eventEntity.nonmembers.split(';')) : ([';', ';', ';'])) : [],
-      };
+          type: 'SOCIAL',
+          ...eventEntity,
+          date: convertDateTimeFromServer(eventEntity.date),
+          place: eventEntity?.place?.id,
+        };
 
   return (
     <div>
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="frnzApp.event.home.createOrEditLabel" data-cy="EventCreateUpdateHeading">
+            <Translate contentKey="frnzApp.event.home.createOrEditLabel">Create or edit a Event</Translate>
           </h2>
         </Col>
       </Row>
@@ -96,21 +93,6 @@ export const EventUpdate = (props: RouteComponentProps<{ id: string }>) => {
             <p>Loading...</p>
           ) : (
             <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
-              <div style={{ position: 'fixed', right: '-60px', top: '400px', }}>
-                <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/event" replace color="info" className="w-50">
-                  <FontAwesomeIcon icon="arrow-left" />
-                  &nbsp;
-                  <span className="d-none d-md-inline">
-                    <Translate contentKey="entity.action.back">Back</Translate>
-                  </span>
-                </Button>
-                &nbsp;
-                <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating} className="w-50">
-                  <FontAwesomeIcon icon="save" />
-                  &nbsp;
-                  <Translate contentKey="entity.action.save">Save</Translate>
-                </Button>
-              </div>
               {!isNew ? (
                 <ValidatedField
                   name="id"
@@ -121,6 +103,13 @@ export const EventUpdate = (props: RouteComponentProps<{ id: string }>) => {
                   validate={{ required: true }}
                 />
               ) : null}
+              <ValidatedField label={translate('frnzApp.event.type')} id="event-type" name="type" data-cy="type" type="select">
+                {eventTypeValues.map(eventType => (
+                  <option value={eventType} key={eventType}>
+                    {translate('frnzApp.EventType' + eventType)}
+                  </option>
+                ))}
+              </ValidatedField>
               <ValidatedField
                 label={translate('frnzApp.event.date')}
                 id="event-date"
@@ -129,46 +118,22 @@ export const EventUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 type="datetime-local"
                 placeholder="YYYY-MM-DD HH:mm"
               />
-              <ValidatedField id="event-place" name="placeId" data-cy="place" label={translate('frnzApp.event.place')} type="select">
-                <option value="" key="0" />
-                {places
-                  ? places.map(otherEntity => (
-                    <option value={otherEntity.id} key={otherEntity.id}>
-                      {otherEntity.name}
-                    </option>
-                  ))
-                  : null}
-              </ValidatedField>
               <ValidatedField label={translate('frnzApp.event.name')} id="event-name" name="name" data-cy="name" type="text" />
               <ValidatedField
-                id="event-participant"
-                name="participantId"
-                data-cy="participant"
-                label={translate('frnzApp.event.participant')}
-                type="select"
-              >
-                <option value="" key="0" />
-                {participants
-                  ? participants.map(otherEntity => (
-                    <option value={otherEntity.id} key={otherEntity.id}>
-                      {otherEntity.member.name}
-                    </option>
-                  ))
-                  : null}
-              </ValidatedField>
-              {
-                eventEntity.nonmembers?.split(';')?.map(function (object, index: number) {
-                  const item = 'members[' + index.toString() + ']'
-                  return <ValidatedField className="col-4 d-inline-block" key={index}
-                    id={item}
-                    name={item}
-                    data-cy={item}
-                    type="text"
-                  />
-                })
-              }
-              <ValidatedField label={translate('frnzApp.event.cost')} id="event-cost" name="cost" data-cy="cost" type="text" />
-              <ValidatedField label={translate('frnzApp.event.duration')} id="event-endTime" name="endTime" data-cy="endTime" type="text" />
+                label={translate('frnzApp.event.startTime')}
+                id="event-startTime"
+                name="startTime"
+                data-cy="startTime"
+                type="text"
+              />
+              <ValidatedField label={translate('frnzApp.event.endTime')} id="event-endTime" name="endTime" data-cy="endTime" type="text" />
+              <ValidatedField
+                label={translate('frnzApp.event.nonmembers')}
+                id="event-nonmembers"
+                name="nonmembers"
+                data-cy="nonmembers"
+                type="text"
+              />
               <ValidatedField
                 label={translate('frnzApp.event.confirmed')}
                 id="event-confirmed"
@@ -185,34 +150,34 @@ export const EventUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 check
                 type="checkbox"
               />
-              <ValidatedField
-                label={translate('frnzApp.event.recurring')}
-                id="event-recurring"
-                name="recurring"
-                data-cy="recurring"
-                check
-                type="checkbox"
-              />
               <ValidatedField label={translate('frnzApp.event.minimum')} id="event-minimum" name="minimum" data-cy="minimum" type="text" />
               <ValidatedField label={translate('frnzApp.event.maximum')} id="event-maximum" name="maximum" data-cy="maximum" type="text" />
-              <ValidatedField
-                label={translate('frnzApp.event.bookLimit')}
-                id="event-bookLimit"
-                name="bookLimit"
-                data-cy="bookLimit"
-                type="text"
-              />
+              <ValidatedField label={translate('frnzApp.event.ideal')} id="event-ideal" name="ideal" data-cy="ideal" type="text" />
+              <ValidatedField label={translate('frnzApp.event.cost')} id="event-cost" name="cost" data-cy="cost" type="text" />
               <ValidatedField label={translate('frnzApp.event.share')} id="event-share" name="share" data-cy="share" type="text" />
-              <ValidatedField id="event-gang" name="gangId" data-cy="gang" label={translate('frnzApp.event.gang')} type="select">
+              <ValidatedField id="event-place" name="place" data-cy="place" label={translate('frnzApp.event.place')} type="select">
                 <option value="" key="0" />
-                {gangs
-                  ? gangs.map(otherEntity => (
-                    <option value={otherEntity.id} key={otherEntity.id}>
-                      {otherEntity.name}
-                    </option>
-                  ))
+                {places
+                  ? places.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.name}
+                      </option>
+                    ))
                   : null}
               </ValidatedField>
+              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/event" replace color="info">
+                <FontAwesomeIcon icon="arrow-left" />
+                &nbsp;
+                <span className="d-none d-md-inline">
+                  <Translate contentKey="entity.action.back">Back</Translate>
+                </span>
+              </Button>
+              &nbsp;
+              <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
+                <FontAwesomeIcon icon="save" />
+                &nbsp;
+                <Translate contentKey="entity.action.save">Save</Translate>
+              </Button>
             </ValidatedForm>
           )}
         </Col>

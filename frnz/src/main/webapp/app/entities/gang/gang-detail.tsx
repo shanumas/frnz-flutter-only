@@ -68,7 +68,42 @@ export const GangDetail = (props: RouteComponentProps<{ id: string }>) => {
           <dt>
             <Translate contentKey="frnzApp.gang.user">User</Translate>
           </dt>
-          <dd>{gangEntity.user ? gangEntity.user.login : ''}</dd>
+          <dd>
+            {gangEntity.users
+              ? gangEntity.users.map((val, i) => (
+                  <span key={val.id}>
+                    <a>{val.login}</a>
+                    {gangEntity.users && i === gangEntity.users.length - 1 ? '' : ', '}
+                  </span>
+                ))
+              : null}
+          </dd>
+          <dt>
+            <Translate contentKey="frnzApp.gang.member">Member</Translate>
+          </dt>
+          <dd>
+            {gangEntity.members
+              ? gangEntity.members.map((val, i) => (
+                  <span key={val.id}>
+                    <a>{val.name}</a>
+                    {gangEntity.members && i === gangEntity.members.length - 1 ? '' : ', '}
+                  </span>
+                ))
+              : null}
+          </dd>
+          <dt>
+            <Translate contentKey="frnzApp.gang.event">Event</Translate>
+          </dt>
+          <dd>
+            {gangEntity.events
+              ? gangEntity.events.map((val, i) => (
+                  <span key={val.id}>
+                    <a>{val.id}</a>
+                    {gangEntity.events && i === gangEntity.events.length - 1 ? '' : ', '}
+                  </span>
+                ))
+              : null}
+          </dd>
         </dl>
         <Button tag={Link} to="/gang" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

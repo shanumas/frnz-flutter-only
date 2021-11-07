@@ -24,7 +24,9 @@
       "description": "Description",
       "announcement": "Announcement",
       "logo": "Logo",
-      "user": "User"
+      "user": "User",
+      "member": "Member",
+      "event": "Event"
     }
   }
 }

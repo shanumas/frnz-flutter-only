@@ -67,6 +67,9 @@ export const Participant = (props: RouteComponentProps<{ url: string }>) => {
                 <th>
                   <Translate contentKey="frnzApp.participant.member">Member</Translate>
                 </th>
+                <th>
+                  <Translate contentKey="frnzApp.participant.event">Event</Translate>
+                </th>
                 <th />
               </tr>
             </thead>
@@ -84,6 +87,7 @@ export const Participant = (props: RouteComponentProps<{ url: string }>) => {
                   <td>{participant.waiting ? 'true' : 'false'}</td>
                   <td>{participant.share}</td>
                   <td>{participant.member ? <Link to={`member/${participant.member.id}`}>{participant.member.name}</Link> : ''}</td>
+                  <td>{participant.event ? <Link to={`event/${participant.event.id}`}>{participant.event.id}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${participant.id}`} color="info" size="sm" data-cy="entityDetailsButton">

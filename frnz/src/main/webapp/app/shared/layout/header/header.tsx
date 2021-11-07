@@ -9,7 +9,6 @@ import { Home, Brand } from './header-components';
 import { AdminMenu, EntitiesMenu, AccountMenu, LocaleMenu } from '../menus';
 import { useAppDispatch } from 'app/config/store';
 import { setLocale } from 'app/shared/reducers/locale';
-import { useEffect, useRef } from 'react';
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -42,29 +41,10 @@ const Header = (props: IHeaderProps) => {
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
-  const [isComponentVisible, setIsComponentVisible] = useState(false);
-  const ref = useRef(null);
-
-  // Collapse if clicked outside
-  const handleClickOutside = (event) => {
-    if (menuOpen) {
-      if (ref.current && !ref.current.contains(event.target)) {
-        toggleMenu()
-      }
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('click', handleClickOutside, true);
-    return () => {
-      document.removeEventListener('click', handleClickOutside, true);
-    };
-  });
-
   /* jhipster-needle-add-element-to-menu - JHipster will add new menu items here */
 
   return (
-    <div id="app-header" ref={ref}>
+    <div id="app-header">
       {renderDevRibbon()}
       <LoadingBar className="loading-bar" />
       <Navbar data-cy="navbar" dark expand="sm" fixed="top" className="jh-navbar">

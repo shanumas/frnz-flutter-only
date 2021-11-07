@@ -9,6 +9,7 @@ import { IPlace } from 'app/shared/model/place.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { PlaceType } from 'app/shared/model/enumerations/place-type.model';
 
 export const PlaceUpdate = (props: RouteComponentProps<{ id: string }>) => {
   const dispatch = useAppDispatch();
@@ -19,7 +20,7 @@ export const PlaceUpdate = (props: RouteComponentProps<{ id: string }>) => {
   const loading = useAppSelector(state => state.place.loading);
   const updating = useAppSelector(state => state.place.updating);
   const updateSuccess = useAppSelector(state => state.place.updateSuccess);
-
+  const placeTypeValues = Object.keys(PlaceType);
   const handleClose = () => {
     props.history.push('/place');
   };
@@ -97,16 +98,11 @@ export const PlaceUpdate = (props: RouteComponentProps<{ id: string }>) => {
               />
               <ValidatedField label={translate('frnzApp.place.address')} id="place-address" name="address" data-cy="address" type="text" />
               <ValidatedField label={translate('frnzApp.place.type')} id="place-type" name="type" data-cy="type" type="select">
-                <option value="RESTAURANT">{translate('frnzApp.PlaceType.RESTAURANT')}</option>
-                <option value="CINEMA">{translate('frnzApp.PlaceType.CINEMA')}</option>
-                <option value="PARK">{translate('frnzApp.PlaceType.PARK')}</option>
-                <option value="ROADTRIP">{translate('frnzApp.PlaceType.ROADTRIP')}</option>
-                <option value="BADMINTON">{translate('frnzApp.PlaceType.BADMINTON')}</option>
-                <option value="PADEL">{translate('frnzApp.PlaceType.PADEL')}</option>
-                <option value="TENNIS">{translate('frnzApp.PlaceType.TENNIS')}</option>
-                <option value="GYM">{translate('frnzApp.PlaceType.GYM')}</option>
-                <option value="ICESKATING">{translate('frnzApp.PlaceType.ICESKATING')}</option>
-                <option value="INNEBANDY">{translate('frnzApp.PlaceType.INNEBANDY')}</option>
+                {placeTypeValues.map(placeType => (
+                  <option value={placeType} key={placeType}>
+                    {translate('frnzApp.PlaceType' + placeType)}
+                  </option>
+                ))}
               </ValidatedField>
               <ValidatedField label={translate('frnzApp.place.phone')} id="place-phone" name="phone" data-cy="phone" type="text" />
               <ValidatedField

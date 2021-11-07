@@ -20,12 +20,12 @@ public class Moderator implements Serializable {
 
     @DBRef
     @Field("gang")
-    @JsonIgnoreProperties(value = { "user" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "users", "members", "events" }, allowSetters = true)
     private Gang gang;
 
     @DBRef
     @Field("member")
-    @JsonIgnoreProperties(value = { "gang" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "events", "gangs" }, allowSetters = true)
     private Member member;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

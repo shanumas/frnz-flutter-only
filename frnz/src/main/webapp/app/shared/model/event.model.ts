@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { IPlace } from 'app/shared/model/place.model';
-import { IParticipant } from 'app/shared/model/participant.model';
 import { IGang } from 'app/shared/model/gang.model';
+import { IMember } from 'app/shared/model/member.model';
 import { EventType } from 'app/shared/model/enumerations/event-type.model';
 
 export interface IEvent {
@@ -14,19 +14,17 @@ export interface IEvent {
   nonmembers?: string | null;
   confirmed?: boolean | null;
   cancelled?: boolean | null;
-  recurring?: boolean | null;
   minimum?: number | null;
   maximum?: number | null;
-  bookLimit?: number | null;
+  ideal?: number | null;
   cost?: number | null;
   share?: number | null;
   place?: IPlace | null;
-  participant?: IParticipant | null;
-  gang?: IGang | null;
+  gangs?: IGang[] | null;
+  members?: IMember[] | null;
 }
 
 export const defaultValue: Readonly<IEvent> = {
   confirmed: false,
   cancelled: false,
-  recurring: false,
 };

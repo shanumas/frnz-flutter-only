@@ -33,11 +33,27 @@
   ],
   "relationships": [
     {
-      "relationshipType": "many-to-one",
+      "relationshipType": "many-to-many",
       "otherEntityName": "user",
       "otherEntityRelationshipName": "gang",
       "relationshipName": "user",
-      "otherEntityField": "login"
+      "otherEntityField": "login",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "member",
+      "otherEntityRelationshipName": "gang",
+      "relationshipName": "member",
+      "otherEntityField": "name",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "event",
+      "otherEntityRelationshipName": "gang",
+      "relationshipName": "event",
+      "ownerSide": true
     }
   ],
   "entityTableName": "gang",
@@ -49,5 +65,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": "*",
-  "changelogDate": "20211022064852"
+  "changelogDate": "20211107095505"
 }

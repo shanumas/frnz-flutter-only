@@ -35,10 +35,6 @@
       "fieldType": "Boolean"
     },
     {
-      "fieldName": "recurring",
-      "fieldType": "Boolean"
-    },
-    {
       "fieldName": "minimum",
       "fieldType": "Integer"
     },
@@ -47,7 +43,7 @@
       "fieldType": "Integer"
     },
     {
-      "fieldName": "bookLimit",
+      "fieldName": "ideal",
       "fieldType": "Integer"
     },
     {
@@ -68,18 +64,20 @@
       "otherEntityField": "name"
     },
     {
-      "relationshipType": "many-to-one",
-      "otherEntityName": "participant",
-      "otherEntityRelationshipName": "event",
-      "relationshipName": "participant",
-      "otherEntityField": "member"
-    },
-    {
-      "relationshipType": "many-to-one",
+      "relationshipType": "many-to-many",
       "otherEntityName": "gang",
       "otherEntityRelationshipName": "event",
       "relationshipName": "gang",
-      "otherEntityField": "name"
+      "otherEntityField": "name",
+      "ownerSide": false
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "member",
+      "otherEntityRelationshipName": "event",
+      "relationshipName": "member",
+      "otherEntityField": "name",
+      "ownerSide": false
     }
   ],
   "entityTableName": "event",
@@ -91,5 +89,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": "*",
-  "changelogDate": "20211022064854"
+  "changelogDate": "20211107095507"
 }

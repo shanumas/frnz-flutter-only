@@ -1,4 +1,6 @@
 import { IUser } from 'app/shared/model/user.model';
+import { IMember } from 'app/shared/model/member.model';
+import { IEvent } from 'app/shared/model/event.model';
 
 export interface IGang {
   id?: string;
@@ -8,7 +10,9 @@ export interface IGang {
   description?: string | null;
   announcement?: string | null;
   logo?: string | null;
-  user?: IUser | null;
+  users?: IUser[] | null;
+  members?: IMember[] | null;
+  events?: IEvent[] | null;
 }
 
 export const defaultValue: Readonly<IGang> = {};

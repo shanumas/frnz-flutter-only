@@ -6,6 +6,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IUser } from 'app/shared/model/user.model';
 import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
+import { IMember } from 'app/shared/model/member.model';
+import { getEntities as getMembers } from 'app/entities/member/member.reducer';
+import { IEvent } from 'app/shared/model/event.model';
+import { getEntities as getEvents } from 'app/entities/event/event.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './gang.reducer';
 import { IGang } from 'app/shared/model/gang.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
@@ -18,11 +22,12 @@ export const GangUpdate = (props: RouteComponentProps<{ id: string }>) => {
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
   const users = useAppSelector(state => state.userManagement.users);
+  const members = useAppSelector(state => state.member.entities);
+  const events = useAppSelector(state => state.event.entities);
   const gangEntity = useAppSelector(state => state.gang.entity);
   const loading = useAppSelector(state => state.gang.loading);
   const updating = useAppSelector(state => state.gang.updating);
   const updateSuccess = useAppSelector(state => state.gang.updateSuccess);
-
   const handleClose = () => {
     props.history.push('/gang');
   };
@@ -35,6 +40,8 @@ export const GangUpdate = (props: RouteComponentProps<{ id: string }>) => {
     }
 
     dispatch(getUsers({}));
+    dispatch(getMembers({}));
+    dispatch(getEvents({}));
   }, []);
 
   useEffect(() => {
@@ -47,7 +54,9 @@ export const GangUpdate = (props: RouteComponentProps<{ id: string }>) => {
     const entity = {
       ...gangEntity,
       ...values,
-      user: users.find(it => it.id.toString() === values.userId.toString()),
+      users: mapIdList(values.users),
+      members: mapIdList(values.members),
+      events: mapIdList(values.events),
     };
 
     if (isNew) {
@@ -62,7 +71,9 @@ export const GangUpdate = (props: RouteComponentProps<{ id: string }>) => {
       ? {}
       : {
           ...gangEntity,
-          userId: gangEntity?.user?.id,
+          users: gangEntity?.users?.map(e => e.id.toString()),
+          members: gangEntity?.members?.map(e => e.id.toString()),
+          events: gangEntity?.events?.map(e => e.id.toString()),
         };
 
   return (
@@ -134,12 +145,39 @@ export const GangUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 type="text"
               />
               <ValidatedField label={translate('frnzApp.gang.logo')} id="gang-logo" name="logo" data-cy="logo" type="text" />
-              <ValidatedField id="gang-user" name="userId" data-cy="user" label={translate('frnzApp.gang.user')} type="select">
+              <ValidatedField label={translate('frnzApp.gang.user')} id="gang-user" data-cy="user" type="select" multiple name="users">
                 <option value="" key="0" />
                 {users
                   ? users.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
                         {otherEntity.login}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
+              <ValidatedField
+                label={translate('frnzApp.gang.member')}
+                id="gang-member"
+                data-cy="member"
+                type="select"
+                multiple
+                name="members"
+              >
+                <option value="" key="0" />
+                {members
+                  ? members.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.name}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
+              <ValidatedField label={translate('frnzApp.gang.event')} id="gang-event" data-cy="event" type="select" multiple name="events">
+                <option value="" key="0" />
+                {events
+                  ? events.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.id}
                       </option>
                     ))
                   : null}

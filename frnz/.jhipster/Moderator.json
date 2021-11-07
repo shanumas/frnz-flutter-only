@@ -7,7 +7,7 @@
       "otherEntityName": "gang",
       "otherEntityRelationshipName": "moderator",
       "relationshipName": "gang",
-      "otherEntityField": "name"
+      "otherEntityField": "handle"
     },
     {
       "relationshipType": "many-to-one",
@@ -26,5 +26,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": "*",
-  "changelogDate": "20211022064855"
+  "changelogDate": "20211107095508"
 }

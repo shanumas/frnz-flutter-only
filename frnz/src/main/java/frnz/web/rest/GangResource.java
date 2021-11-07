@@ -150,12 +150,13 @@ public class GangResource {
     /**
      * {@code GET  /gangs} : get all the gangs.
      *
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of gangs in body.
      */
     @GetMapping("/gangs")
-    public List<Gang> getAllGangs() {
+    public List<Gang> getAllGangs(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all Gangs");
-        return gangRepository.findAll();
+        return gangRepository.findAllWithEagerRelationships();
     }
 
     /**
@@ -167,7 +168,7 @@ public class GangResource {
     @GetMapping("/gangs/{id}")
     public ResponseEntity<Gang> getGang(@PathVariable String id) {
         log.debug("REST request to get Gang : {}", id);
-        Optional<Gang> gang = gangRepository.findById(id);
+        Optional<Gang> gang = gangRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(gang);
     }
 

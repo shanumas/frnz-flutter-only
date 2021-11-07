@@ -23,19 +23,17 @@
       "name": "Name",
       "startTime": "Start Time",
       "endTime": "End Time",
-      "duration": "Duration",
       "nonmembers": "Nonmembers",
       "confirmed": "Confirmed",
       "cancelled": "Cancelled",
-      "recurring": "Recurring",
       "minimum": "Minimum",
       "maximum": "Maximum",
-      "bookLimit": "Book Limit",
+      "ideal": "Ideal",
       "cost": "Cost",
       "share": "Share",
       "place": "Place",
-      "participant": "Participant",
-      "gang": "Gang"
+      "gang": "Gang",
+      "member": "Member"
     }
   }
 }

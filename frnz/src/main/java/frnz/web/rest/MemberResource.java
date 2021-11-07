@@ -146,12 +146,13 @@ public class MemberResource {
     /**
      * {@code GET  /members} : get all the members.
      *
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of members in body.
      */
     @GetMapping("/members")
-    public List<Member> getAllMembers() {
+    public List<Member> getAllMembers(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all Members");
-        return memberRepository.findAll();
+        return memberRepository.findAllWithEagerRelationships();
     }
 
     /**
@@ -163,7 +164,7 @@ public class MemberResource {
     @GetMapping("/members/{id}")
     public ResponseEntity<Member> getMember(@PathVariable String id) {
         log.debug("REST request to get Member : {}", id);
-        Optional<Member> member = memberRepository.findById(id);
+        Optional<Member> member = memberRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(member);
     }
 

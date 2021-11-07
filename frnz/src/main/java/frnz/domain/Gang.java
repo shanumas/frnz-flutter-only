@@ -1,6 +1,9 @@
 package frnz.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.validation.constraints.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -41,8 +44,18 @@ public class Gang implements Serializable {
     private String logo;
 
     @DBRef
-    @Field("user")
-    private User user;
+    @Field("users")
+    private Set<User> users = new HashSet<>();
+
+    @DBRef
+    @Field("members")
+    @JsonIgnoreProperties(value = { "events", "gangs" }, allowSetters = true)
+    private Set<Member> members = new HashSet<>();
+
+    @DBRef
+    @Field("events")
+    @JsonIgnoreProperties(value = { "place", "gangs", "members" }, allowSetters = true)
+    private Set<Event> events = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -137,16 +150,76 @@ public class Gang implements Serializable {
         this.logo = logo;
     }
 
-    public User getUser() {
-        return this.user;
+    public Set<User> getUsers() {
+        return this.users;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
-    public Gang user(User user) {
-        this.setUser(user);
+    public Gang users(Set<User> users) {
+        this.setUsers(users);
+        return this;
+    }
+
+    public Gang addUser(User user) {
+        this.users.add(user);
+        return this;
+    }
+
+    public Gang removeUser(User user) {
+        this.users.remove(user);
+        return this;
+    }
+
+    public Set<Member> getMembers() {
+        return this.members;
+    }
+
+    public void setMembers(Set<Member> members) {
+        this.members = members;
+    }
+
+    public Gang members(Set<Member> members) {
+        this.setMembers(members);
+        return this;
+    }
+
+    public Gang addMember(Member member) {
+        this.members.add(member);
+        member.getGangs().add(this);
+        return this;
+    }
+
+    public Gang removeMember(Member member) {
+        this.members.remove(member);
+        member.getGangs().remove(this);
+        return this;
+    }
+
+    public Set<Event> getEvents() {
+        return this.events;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
+    }
+
+    public Gang events(Set<Event> events) {
+        this.setEvents(events);
+        return this;
+    }
+
+    public Gang addEvent(Event event) {
+        this.events.add(event);
+        event.getGangs().add(this);
+        return this;
+    }
+
+    public Gang removeEvent(Event event) {
+        this.events.remove(event);
+        event.getGangs().remove(this);
         return this;
     }
 

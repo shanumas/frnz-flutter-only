@@ -53,17 +53,14 @@ class EventResourceIT {
     private static final Boolean DEFAULT_CANCELLED = false;
     private static final Boolean UPDATED_CANCELLED = true;
 
-    private static final Boolean DEFAULT_RECURRING = false;
-    private static final Boolean UPDATED_RECURRING = true;
-
     private static final Integer DEFAULT_MINIMUM = 1;
     private static final Integer UPDATED_MINIMUM = 2;
 
     private static final Integer DEFAULT_MAXIMUM = 1;
     private static final Integer UPDATED_MAXIMUM = 2;
 
-    private static final Integer DEFAULT_BOOK_LIMIT = 1;
-    private static final Integer UPDATED_BOOK_LIMIT = 2;
+    private static final Integer DEFAULT_IDEAL = 1;
+    private static final Integer UPDATED_IDEAL = 2;
 
     private static final Float DEFAULT_COST = 1F;
     private static final Float UPDATED_COST = 2F;
@@ -98,10 +95,9 @@ class EventResourceIT {
             .nonmembers(DEFAULT_NONMEMBERS)
             .confirmed(DEFAULT_CONFIRMED)
             .cancelled(DEFAULT_CANCELLED)
-            .recurring(DEFAULT_RECURRING)
             .minimum(DEFAULT_MINIMUM)
             .maximum(DEFAULT_MAXIMUM)
-            .bookLimit(DEFAULT_BOOK_LIMIT)
+            .ideal(DEFAULT_IDEAL)
             .cost(DEFAULT_COST)
             .share(DEFAULT_SHARE);
         return event;
@@ -123,10 +119,9 @@ class EventResourceIT {
             .nonmembers(UPDATED_NONMEMBERS)
             .confirmed(UPDATED_CONFIRMED)
             .cancelled(UPDATED_CANCELLED)
-            .recurring(UPDATED_RECURRING)
             .minimum(UPDATED_MINIMUM)
             .maximum(UPDATED_MAXIMUM)
-            .bookLimit(UPDATED_BOOK_LIMIT)
+            .ideal(UPDATED_IDEAL)
             .cost(UPDATED_COST)
             .share(UPDATED_SHARE);
         return event;
@@ -158,10 +153,9 @@ class EventResourceIT {
         assertThat(testEvent.getNonmembers()).isEqualTo(DEFAULT_NONMEMBERS);
         assertThat(testEvent.getConfirmed()).isEqualTo(DEFAULT_CONFIRMED);
         assertThat(testEvent.getCancelled()).isEqualTo(DEFAULT_CANCELLED);
-        assertThat(testEvent.getRecurring()).isEqualTo(DEFAULT_RECURRING);
         assertThat(testEvent.getMinimum()).isEqualTo(DEFAULT_MINIMUM);
         assertThat(testEvent.getMaximum()).isEqualTo(DEFAULT_MAXIMUM);
-        assertThat(testEvent.getBookLimit()).isEqualTo(DEFAULT_BOOK_LIMIT);
+        assertThat(testEvent.getIdeal()).isEqualTo(DEFAULT_IDEAL);
         assertThat(testEvent.getCost()).isEqualTo(DEFAULT_COST);
         assertThat(testEvent.getShare()).isEqualTo(DEFAULT_SHARE);
     }
@@ -202,10 +196,9 @@ class EventResourceIT {
             .andExpect(jsonPath("$.[*].nonmembers").value(hasItem(DEFAULT_NONMEMBERS)))
             .andExpect(jsonPath("$.[*].confirmed").value(hasItem(DEFAULT_CONFIRMED.booleanValue())))
             .andExpect(jsonPath("$.[*].cancelled").value(hasItem(DEFAULT_CANCELLED.booleanValue())))
-            .andExpect(jsonPath("$.[*].recurring").value(hasItem(DEFAULT_RECURRING.booleanValue())))
             .andExpect(jsonPath("$.[*].minimum").value(hasItem(DEFAULT_MINIMUM)))
             .andExpect(jsonPath("$.[*].maximum").value(hasItem(DEFAULT_MAXIMUM)))
-            .andExpect(jsonPath("$.[*].bookLimit").value(hasItem(DEFAULT_BOOK_LIMIT)))
+            .andExpect(jsonPath("$.[*].ideal").value(hasItem(DEFAULT_IDEAL)))
             .andExpect(jsonPath("$.[*].cost").value(hasItem(DEFAULT_COST.doubleValue())))
             .andExpect(jsonPath("$.[*].share").value(hasItem(DEFAULT_SHARE.doubleValue())));
     }
@@ -229,10 +222,9 @@ class EventResourceIT {
             .andExpect(jsonPath("$.nonmembers").value(DEFAULT_NONMEMBERS))
             .andExpect(jsonPath("$.confirmed").value(DEFAULT_CONFIRMED.booleanValue()))
             .andExpect(jsonPath("$.cancelled").value(DEFAULT_CANCELLED.booleanValue()))
-            .andExpect(jsonPath("$.recurring").value(DEFAULT_RECURRING.booleanValue()))
             .andExpect(jsonPath("$.minimum").value(DEFAULT_MINIMUM))
             .andExpect(jsonPath("$.maximum").value(DEFAULT_MAXIMUM))
-            .andExpect(jsonPath("$.bookLimit").value(DEFAULT_BOOK_LIMIT))
+            .andExpect(jsonPath("$.ideal").value(DEFAULT_IDEAL))
             .andExpect(jsonPath("$.cost").value(DEFAULT_COST.doubleValue()))
             .andExpect(jsonPath("$.share").value(DEFAULT_SHARE.doubleValue()));
     }
@@ -261,10 +253,9 @@ class EventResourceIT {
             .nonmembers(UPDATED_NONMEMBERS)
             .confirmed(UPDATED_CONFIRMED)
             .cancelled(UPDATED_CANCELLED)
-            .recurring(UPDATED_RECURRING)
             .minimum(UPDATED_MINIMUM)
             .maximum(UPDATED_MAXIMUM)
-            .bookLimit(UPDATED_BOOK_LIMIT)
+            .ideal(UPDATED_IDEAL)
             .cost(UPDATED_COST)
             .share(UPDATED_SHARE);
 
@@ -288,10 +279,9 @@ class EventResourceIT {
         assertThat(testEvent.getNonmembers()).isEqualTo(UPDATED_NONMEMBERS);
         assertThat(testEvent.getConfirmed()).isEqualTo(UPDATED_CONFIRMED);
         assertThat(testEvent.getCancelled()).isEqualTo(UPDATED_CANCELLED);
-        assertThat(testEvent.getRecurring()).isEqualTo(UPDATED_RECURRING);
         assertThat(testEvent.getMinimum()).isEqualTo(UPDATED_MINIMUM);
         assertThat(testEvent.getMaximum()).isEqualTo(UPDATED_MAXIMUM);
-        assertThat(testEvent.getBookLimit()).isEqualTo(UPDATED_BOOK_LIMIT);
+        assertThat(testEvent.getIdeal()).isEqualTo(UPDATED_IDEAL);
         assertThat(testEvent.getCost()).isEqualTo(UPDATED_COST);
         assertThat(testEvent.getShare()).isEqualTo(UPDATED_SHARE);
     }
@@ -360,7 +350,7 @@ class EventResourceIT {
         Event partialUpdatedEvent = new Event();
         partialUpdatedEvent.setId(event.getId());
 
-        partialUpdatedEvent.date(UPDATED_DATE).cancelled(UPDATED_CANCELLED).bookLimit(UPDATED_BOOK_LIMIT).cost(UPDATED_COST);
+        partialUpdatedEvent.date(UPDATED_DATE).cancelled(UPDATED_CANCELLED).cost(UPDATED_COST).share(UPDATED_SHARE);
 
         restEventMockMvc
             .perform(
@@ -382,12 +372,11 @@ class EventResourceIT {
         assertThat(testEvent.getNonmembers()).isEqualTo(DEFAULT_NONMEMBERS);
         assertThat(testEvent.getConfirmed()).isEqualTo(DEFAULT_CONFIRMED);
         assertThat(testEvent.getCancelled()).isEqualTo(UPDATED_CANCELLED);
-        assertThat(testEvent.getRecurring()).isEqualTo(DEFAULT_RECURRING);
         assertThat(testEvent.getMinimum()).isEqualTo(DEFAULT_MINIMUM);
         assertThat(testEvent.getMaximum()).isEqualTo(DEFAULT_MAXIMUM);
-        assertThat(testEvent.getBookLimit()).isEqualTo(UPDATED_BOOK_LIMIT);
+        assertThat(testEvent.getIdeal()).isEqualTo(DEFAULT_IDEAL);
         assertThat(testEvent.getCost()).isEqualTo(UPDATED_COST);
-        assertThat(testEvent.getShare()).isEqualTo(DEFAULT_SHARE);
+        assertThat(testEvent.getShare()).isEqualTo(UPDATED_SHARE);
     }
 
     @Test
@@ -410,10 +399,9 @@ class EventResourceIT {
             .nonmembers(UPDATED_NONMEMBERS)
             .confirmed(UPDATED_CONFIRMED)
             .cancelled(UPDATED_CANCELLED)
-            .recurring(UPDATED_RECURRING)
             .minimum(UPDATED_MINIMUM)
             .maximum(UPDATED_MAXIMUM)
-            .bookLimit(UPDATED_BOOK_LIMIT)
+            .ideal(UPDATED_IDEAL)
             .cost(UPDATED_COST)
             .share(UPDATED_SHARE);
 
@@ -437,10 +425,9 @@ class EventResourceIT {
         assertThat(testEvent.getNonmembers()).isEqualTo(UPDATED_NONMEMBERS);
         assertThat(testEvent.getConfirmed()).isEqualTo(UPDATED_CONFIRMED);
         assertThat(testEvent.getCancelled()).isEqualTo(UPDATED_CANCELLED);
-        assertThat(testEvent.getRecurring()).isEqualTo(UPDATED_RECURRING);
         assertThat(testEvent.getMinimum()).isEqualTo(UPDATED_MINIMUM);
         assertThat(testEvent.getMaximum()).isEqualTo(UPDATED_MAXIMUM);
-        assertThat(testEvent.getBookLimit()).isEqualTo(UPDATED_BOOK_LIMIT);
+        assertThat(testEvent.getIdeal()).isEqualTo(UPDATED_IDEAL);
         assertThat(testEvent.getCost()).isEqualTo(UPDATED_COST);
         assertThat(testEvent.getShare()).isEqualTo(UPDATED_SHARE);
     }

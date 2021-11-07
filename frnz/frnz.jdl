@@ -27,13 +27,11 @@ entity Event {
   nonmembers String
   confirmed Boolean
   cancelled Boolean
-  recurring Boolean
   minimum Integer
   maximum Integer
-  bookLimit Integer
+  ideal Integer
   cost Float
   share Float
-
 }
 
 enum EventType{
@@ -59,18 +57,18 @@ entity Participant {
 }
 
 relationship ManyToOne {
-  Gang{user(login)} to User
-
-  Moderator{gang(name)} to Gang
-
-  Member{gang(name)} to Gang
-
+  Moderator{gang(handle)} to Gang
   Moderator{member(name)} to Member
   Participant{member(name)} to Member
-
   Event{place(name)} to Place
-  Event{participant(member)} to Participant
-  Event{gang(name)} to Gang
+  Participant{event} to Event
+}
+
+relationship ManyToMany {
+  Gang{user(login)} to User{gang(handle)}
+  Gang{member(name)} to Member{gang(handle)}
+  Gang{event} to Event{gang(name)}
+  Member{event} to Event{member(name)}
 }
 
 paginate Event with infinite-scroll

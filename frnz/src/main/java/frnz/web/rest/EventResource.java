@@ -149,17 +149,14 @@ public class EventResource {
                 if (event.getCancelled() != null) {
                     existingEvent.setCancelled(event.getCancelled());
                 }
-                if (event.getRecurring() != null) {
-                    existingEvent.setRecurring(event.getRecurring());
-                }
                 if (event.getMinimum() != null) {
                     existingEvent.setMinimum(event.getMinimum());
                 }
                 if (event.getMaximum() != null) {
                     existingEvent.setMaximum(event.getMaximum());
                 }
-                if (event.getBookLimit() != null) {
-                    existingEvent.setBookLimit(event.getBookLimit());
+                if (event.getIdeal() != null) {
+                    existingEvent.setIdeal(event.getIdeal());
                 }
                 if (event.getCost() != null) {
                     existingEvent.setCost(event.getCost());

@@ -62,7 +62,7 @@ export const Member = (props: RouteComponentProps<{ url: string }>) => {
                   <Translate contentKey="frnzApp.member.guest">Guest</Translate>
                 </th>
                 <th>
-                  <Translate contentKey="frnzApp.member.gang">Gang</Translate>
+                  <Translate contentKey="frnzApp.member.event">Event</Translate>
                 </th>
                 <th />
               </tr>
@@ -79,7 +79,16 @@ export const Member = (props: RouteComponentProps<{ url: string }>) => {
                   <td>{member.email}</td>
                   <td>{member.phone}</td>
                   <td>{member.guest ? 'true' : 'false'}</td>
-                  <td>{member.gang ? <Link to={`gang/${member.gang.id}`}>{member.gang.name}</Link> : ''}</td>
+                  <td>
+                    {member.events
+                      ? member.events.map((val, j) => (
+                          <span key={j}>
+                            <Link to={`event/${val.id}`}>{val.id}</Link>
+                            {j === member.events.length - 1 ? '' : ', '}
+                          </span>
+                        ))
+                      : null}
+                  </td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${member.id}`} color="info" size="sm" data-cy="entityDetailsButton">

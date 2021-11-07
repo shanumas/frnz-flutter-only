@@ -25,7 +25,6 @@ export const ModeratorUpdate = (props: RouteComponentProps<{ id: string }>) => {
   const loading = useAppSelector(state => state.moderator.loading);
   const updating = useAppSelector(state => state.moderator.updating);
   const updateSuccess = useAppSelector(state => state.moderator.updateSuccess);
-
   const handleClose = () => {
     props.history.push('/moderator');
   };
@@ -51,8 +50,8 @@ export const ModeratorUpdate = (props: RouteComponentProps<{ id: string }>) => {
     const entity = {
       ...moderatorEntity,
       ...values,
-      gang: gangs.find(it => it.id.toString() === values.gangId.toString()),
-      member: members.find(it => it.id.toString() === values.memberId.toString()),
+      gang: gangs.find(it => it.id.toString() === values.gang.toString()),
+      member: members.find(it => it.id.toString() === values.member.toString()),
     };
 
     if (isNew) {
@@ -67,8 +66,8 @@ export const ModeratorUpdate = (props: RouteComponentProps<{ id: string }>) => {
       ? {}
       : {
           ...moderatorEntity,
-          gangId: moderatorEntity?.gang?.id,
-          memberId: moderatorEntity?.member?.id,
+          gang: moderatorEntity?.gang?.id,
+          member: moderatorEntity?.member?.id,
         };
 
   return (
@@ -96,19 +95,19 @@ export const ModeratorUpdate = (props: RouteComponentProps<{ id: string }>) => {
                   validate={{ required: true }}
                 />
               ) : null}
-              <ValidatedField id="moderator-gang" name="gangId" data-cy="gang" label={translate('frnzApp.moderator.gang')} type="select">
+              <ValidatedField id="moderator-gang" name="gang" data-cy="gang" label={translate('frnzApp.moderator.gang')} type="select">
                 <option value="" key="0" />
                 {gangs
                   ? gangs.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.name}
+                        {otherEntity.handle}
                       </option>
                     ))
                   : null}
               </ValidatedField>
               <ValidatedField
                 id="moderator-member"
-                name="memberId"
+                name="member"
                 data-cy="member"
                 label={translate('frnzApp.moderator.member')}
                 type="select"

@@ -63,6 +63,10 @@ export const ParticipantDetail = (props: RouteComponentProps<{ id: string }>) =>
             <Translate contentKey="frnzApp.participant.member">Member</Translate>
           </dt>
           <dd>{participantEntity.member ? participantEntity.member.name : ''}</dd>
+          <dt>
+            <Translate contentKey="frnzApp.participant.event">Event</Translate>
+          </dt>
+          <dd>{participantEntity.event ? participantEntity.event.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/participant" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

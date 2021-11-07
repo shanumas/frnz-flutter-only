@@ -2,7 +2,7 @@
   "generator-jhipster": {
     "applicationType": "monolith",
     "baseName": "frnz",
-    "jhipsterVersion": "7.2.0",
+    "jhipsterVersion": "7.3.1",
     "skipClient": false,
     "skipServer": false,
     "skipUserManagement": false,
@@ -15,7 +15,7 @@
     "blueprints": [],
     "otherModules": [],
     "pages": [],
-    "creationTimestamp": 1634885114843,
+    "creationTimestamp": 1636278538173,
     "serviceDiscoveryType": "eureka",
     "reactive": false,
     "authenticationType": "jwt",
@@ -39,13 +39,13 @@
     "nativeLanguage": "en",
     "monorepository": true,
     "skipCommitHook": true,
-    "jwtSecretKey": "YmE1NTJkZjU0ODhiNGJmMWNiNmFmZmFhMmI1NDYxNWM2OTA4YjI2YmVkNDAyZWUxYjUyM2I1NTk2ZjcwY2IxNGUxZDM5NDY0ZjQ5M2EyMjY5YzZjYjA5NTM5NDBjZTk0MGQ3ZTAxZTEzOGJlMGY5ZmM1OGEzYmU5YzgyMTQ0N2Q=",
+    "jwtSecretKey": "ODZiMDM5ZWNmNjQ5ZTVjZTE0ZTVjMDliNGI4OWFlMmFlNzY4Mjc1OTc3MDAyZGJkYjdlOTYyM2E4MDdjYjY4MWJiOTZmNjg0NWYzZmI1MTM2OGFkYjc0NDg4NDA5NDhmYmNkNmM1MWI3NTI5MzQwMjFhZjc3NzBkOTRjYzhhNjI=",
     "devServerPort": 9060,
     "clientPackageManager": "npm",
     "clientThemeVariant": "",
     "languages": ["en"],
     "enableGradleEnterprise": false,
     "entities": ["Gang", "Place", "Event", "Moderator", "Member", "Participant"],
-    "lastLiquibaseTimestamp": 1634885337000
+    "lastLiquibaseTimestamp": 1636278910000
   }
 }

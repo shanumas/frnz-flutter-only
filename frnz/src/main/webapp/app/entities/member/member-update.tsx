@@ -4,6 +4,8 @@ import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { IEvent } from 'app/shared/model/event.model';
+import { getEntities as getEvents } from 'app/entities/event/event.reducer';
 import { IGang } from 'app/shared/model/gang.model';
 import { getEntities as getGangs } from 'app/entities/gang/gang.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './member.reducer';
@@ -17,12 +19,12 @@ export const MemberUpdate = (props: RouteComponentProps<{ id: string }>) => {
 
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
+  const events = useAppSelector(state => state.event.entities);
   const gangs = useAppSelector(state => state.gang.entities);
   const memberEntity = useAppSelector(state => state.member.entity);
   const loading = useAppSelector(state => state.member.loading);
   const updating = useAppSelector(state => state.member.updating);
   const updateSuccess = useAppSelector(state => state.member.updateSuccess);
-
   const handleClose = () => {
     props.history.push('/member');
   };
@@ -34,6 +36,7 @@ export const MemberUpdate = (props: RouteComponentProps<{ id: string }>) => {
       dispatch(getEntity(props.match.params.id));
     }
 
+    dispatch(getEvents({}));
     dispatch(getGangs({}));
   }, []);
 
@@ -47,7 +50,7 @@ export const MemberUpdate = (props: RouteComponentProps<{ id: string }>) => {
     const entity = {
       ...memberEntity,
       ...values,
-      gang: gangs.find(it => it.id.toString() === values.gangId.toString()),
+      events: mapIdList(values.events),
     };
 
     if (isNew) {
@@ -62,7 +65,7 @@ export const MemberUpdate = (props: RouteComponentProps<{ id: string }>) => {
       ? {}
       : {
           ...memberEntity,
-          gangId: memberEntity?.gang?.id,
+          events: memberEntity?.events?.map(e => e.id.toString()),
         };
 
   return (
@@ -111,12 +114,19 @@ export const MemberUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 check
                 type="checkbox"
               />
-              <ValidatedField id="member-gang" name="gangId" data-cy="gang" label={translate('frnzApp.member.gang')} type="select">
+              <ValidatedField
+                label={translate('frnzApp.member.event')}
+                id="member-event"
+                data-cy="event"
+                type="select"
+                multiple
+                name="events"
+              >
                 <option value="" key="0" />
-                {gangs
-                  ? gangs.map(otherEntity => (
+                {events
+                  ? events.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.name}
+                        {otherEntity.id}
                       </option>
                     ))
                   : null}

@@ -22,11 +22,19 @@
   ],
   "relationships": [
     {
-      "relationshipType": "many-to-one",
+      "relationshipType": "many-to-many",
+      "otherEntityName": "event",
+      "otherEntityRelationshipName": "member",
+      "relationshipName": "event",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "many-to-many",
       "otherEntityName": "gang",
       "otherEntityRelationshipName": "member",
       "relationshipName": "gang",
-      "otherEntityField": "name"
+      "otherEntityField": "handle",
+      "ownerSide": false
     }
   ],
   "entityTableName": "member",
@@ -38,5 +46,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": "*",
-  "changelogDate": "20211022064856"
+  "changelogDate": "20211107095509"
 }

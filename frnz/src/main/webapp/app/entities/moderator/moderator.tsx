@@ -66,7 +66,7 @@ export const Moderator = (props: RouteComponentProps<{ url: string }>) => {
                       {moderator.id}
                     </Button>
                   </td>
-                  <td>{moderator.gang ? <Link to={`gang/${moderator.gang.id}`}>{moderator.gang.name}</Link> : ''}</td>
+                  <td>{moderator.gang ? <Link to={`gang/${moderator.gang.id}`}>{moderator.gang.handle}</Link> : ''}</td>
                   <td>{moderator.member ? <Link to={`member/${moderator.member.id}`}>{moderator.member.name}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">

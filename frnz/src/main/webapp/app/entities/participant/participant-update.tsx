@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IMember } from 'app/shared/model/member.model';
 import { getEntities as getMembers } from 'app/entities/member/member.reducer';
+import { IEvent } from 'app/shared/model/event.model';
+import { getEntities as getEvents } from 'app/entities/event/event.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './participant.reducer';
 import { IParticipant } from 'app/shared/model/participant.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
@@ -18,11 +20,11 @@ export const ParticipantUpdate = (props: RouteComponentProps<{ id: string }>) =>
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
   const members = useAppSelector(state => state.member.entities);
+  const events = useAppSelector(state => state.event.entities);
   const participantEntity = useAppSelector(state => state.participant.entity);
   const loading = useAppSelector(state => state.participant.loading);
   const updating = useAppSelector(state => state.participant.updating);
   const updateSuccess = useAppSelector(state => state.participant.updateSuccess);
-
   const handleClose = () => {
     props.history.push('/participant');
   };
@@ -35,6 +37,7 @@ export const ParticipantUpdate = (props: RouteComponentProps<{ id: string }>) =>
     }
 
     dispatch(getMembers({}));
+    dispatch(getEvents({}));
   }, []);
 
   useEffect(() => {
@@ -47,7 +50,8 @@ export const ParticipantUpdate = (props: RouteComponentProps<{ id: string }>) =>
     const entity = {
       ...participantEntity,
       ...values,
-      member: members.find(it => it.id.toString() === values.memberId.toString()),
+      member: members.find(it => it.id.toString() === values.member.toString()),
+      event: events.find(it => it.id.toString() === values.event.toString()),
     };
 
     if (isNew) {
@@ -62,7 +66,8 @@ export const ParticipantUpdate = (props: RouteComponentProps<{ id: string }>) =>
       ? {}
       : {
           ...participantEntity,
-          memberId: participantEntity?.member?.id,
+          member: participantEntity?.member?.id,
+          event: participantEntity?.event?.id,
         };
 
   return (
@@ -131,7 +136,7 @@ export const ParticipantUpdate = (props: RouteComponentProps<{ id: string }>) =>
               />
               <ValidatedField
                 id="participant-member"
-                name="memberId"
+                name="member"
                 data-cy="member"
                 label={translate('frnzApp.participant.member')}
                 type="select"
@@ -141,6 +146,22 @@ export const ParticipantUpdate = (props: RouteComponentProps<{ id: string }>) =>
                   ? members.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
                         {otherEntity.name}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
+              <ValidatedField
+                id="participant-event"
+                name="event"
+                data-cy="event"
+                label={translate('frnzApp.participant.event')}
+                type="select"
+              >
+                <option value="" key="0" />
+                {events
+                  ? events.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.id}
                       </option>
                     ))
                   : null}

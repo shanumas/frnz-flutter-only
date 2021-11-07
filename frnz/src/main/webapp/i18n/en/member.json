@@ -22,6 +22,7 @@
       "email": "Email",
       "phone": "Phone",
       "guest": "Guest",
+      "event": "Event",
       "gang": "Gang"
     }
   }

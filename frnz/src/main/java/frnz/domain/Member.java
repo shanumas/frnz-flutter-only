@@ -2,6 +2,8 @@ package frnz.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.validation.constraints.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -34,9 +36,14 @@ public class Member implements Serializable {
     private Boolean guest;
 
     @DBRef
-    @Field("gang")
-    @JsonIgnoreProperties(value = { "user" }, allowSetters = true)
-    private Gang gang;
+    @Field("events")
+    @JsonIgnoreProperties(value = { "place", "gangs", "members" }, allowSetters = true)
+    private Set<Event> events = new HashSet<>();
+
+    @DBRef
+    @Field("gangs")
+    @JsonIgnoreProperties(value = { "users", "members", "events" }, allowSetters = true)
+    private Set<Gang> gangs = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -105,16 +112,59 @@ public class Member implements Serializable {
         this.guest = guest;
     }
 
-    public Gang getGang() {
-        return this.gang;
+    public Set<Event> getEvents() {
+        return this.events;
     }
 
-    public void setGang(Gang gang) {
-        this.gang = gang;
+    public void setEvents(Set<Event> events) {
+        this.events = events;
     }
 
-    public Member gang(Gang gang) {
-        this.setGang(gang);
+    public Member events(Set<Event> events) {
+        this.setEvents(events);
+        return this;
+    }
+
+    public Member addEvent(Event event) {
+        this.events.add(event);
+        event.getMembers().add(this);
+        return this;
+    }
+
+    public Member removeEvent(Event event) {
+        this.events.remove(event);
+        event.getMembers().remove(this);
+        return this;
+    }
+
+    public Set<Gang> getGangs() {
+        return this.gangs;
+    }
+
+    public void setGangs(Set<Gang> gangs) {
+        if (this.gangs != null) {
+            this.gangs.forEach(i -> i.removeMember(this));
+        }
+        if (gangs != null) {
+            gangs.forEach(i -> i.addMember(this));
+        }
+        this.gangs = gangs;
+    }
+
+    public Member gangs(Set<Gang> gangs) {
+        this.setGangs(gangs);
+        return this;
+    }
+
+    public Member addGang(Gang gang) {
+        this.gangs.add(gang);
+        gang.getMembers().add(this);
+        return this;
+    }
+
+    public Member removeGang(Gang gang) {
+        this.gangs.remove(gang);
+        gang.getMembers().remove(this);
         return this;
     }
 

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import frnz.domain.enumeration.EventType;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -36,7 +38,7 @@ public class Event implements Serializable {
     private String endTime;
 
     @Field("nonmembers")
-    private String nonmembers = ";;;;";
+    private String nonmembers;
 
     @Field("confirmed")
     private Boolean confirmed;
@@ -44,17 +46,14 @@ public class Event implements Serializable {
     @Field("cancelled")
     private Boolean cancelled;
 
-    @Field("recurring")
-    private Boolean recurring;
-
     @Field("minimum")
     private Integer minimum;
 
     @Field("maximum")
     private Integer maximum;
 
-    @Field("book_limit")
-    private Integer bookLimit;
+    @Field("ideal")
+    private Integer ideal;
 
     @Field("cost")
     private Float cost;
@@ -67,14 +66,14 @@ public class Event implements Serializable {
     private Place place;
 
     @DBRef
-    @Field("participant")
-    @JsonIgnoreProperties(value = { "member" }, allowSetters = true)
-    private Participant participant;
+    @Field("gangs")
+    @JsonIgnoreProperties(value = { "users", "members", "events" }, allowSetters = true)
+    private Set<Gang> gangs = new HashSet<>();
 
     @DBRef
-    @Field("gang")
-    @JsonIgnoreProperties(value = { "user" }, allowSetters = true)
-    private Gang gang;
+    @Field("members")
+    @JsonIgnoreProperties(value = { "events", "gangs" }, allowSetters = true)
+    private Set<Member> members = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -195,19 +194,6 @@ public class Event implements Serializable {
         this.cancelled = cancelled;
     }
 
-    public Boolean getRecurring() {
-        return this.recurring;
-    }
-
-    public Event recurring(Boolean recurring) {
-        this.setRecurring(recurring);
-        return this;
-    }
-
-    public void setRecurring(Boolean recurring) {
-        this.recurring = recurring;
-    }
-
     public Integer getMinimum() {
         return this.minimum;
     }
@@ -234,17 +220,17 @@ public class Event implements Serializable {
         this.maximum = maximum;
     }
 
-    public Integer getBookLimit() {
-        return this.bookLimit;
+    public Integer getIdeal() {
+        return this.ideal;
     }
 
-    public Event bookLimit(Integer bookLimit) {
-        this.setBookLimit(bookLimit);
+    public Event ideal(Integer ideal) {
+        this.setIdeal(ideal);
         return this;
     }
 
-    public void setBookLimit(Integer bookLimit) {
-        this.bookLimit = bookLimit;
+    public void setIdeal(Integer ideal) {
+        this.ideal = ideal;
     }
 
     public Float getCost() {
@@ -286,29 +272,65 @@ public class Event implements Serializable {
         return this;
     }
 
-    public Participant getParticipant() {
-        return this.participant;
+    public Set<Gang> getGangs() {
+        return this.gangs;
     }
 
-    public void setParticipant(Participant participant) {
-        this.participant = participant;
+    public void setGangs(Set<Gang> gangs) {
+        if (this.gangs != null) {
+            this.gangs.forEach(i -> i.removeEvent(this));
+        }
+        if (gangs != null) {
+            gangs.forEach(i -> i.addEvent(this));
+        }
+        this.gangs = gangs;
     }
 
-    public Event participant(Participant participant) {
-        this.setParticipant(participant);
+    public Event gangs(Set<Gang> gangs) {
+        this.setGangs(gangs);
         return this;
     }
 
-    public Gang getGang() {
-        return this.gang;
+    public Event addGang(Gang gang) {
+        this.gangs.add(gang);
+        gang.getEvents().add(this);
+        return this;
     }
 
-    public void setGang(Gang gang) {
-        this.gang = gang;
+    public Event removeGang(Gang gang) {
+        this.gangs.remove(gang);
+        gang.getEvents().remove(this);
+        return this;
     }
 
-    public Event gang(Gang gang) {
-        this.setGang(gang);
+    public Set<Member> getMembers() {
+        return this.members;
+    }
+
+    public void setMembers(Set<Member> members) {
+        if (this.members != null) {
+            this.members.forEach(i -> i.removeEvent(this));
+        }
+        if (members != null) {
+            members.forEach(i -> i.addEvent(this));
+        }
+        this.members = members;
+    }
+
+    public Event members(Set<Member> members) {
+        this.setMembers(members);
+        return this;
+    }
+
+    public Event addMember(Member member) {
+        this.members.add(member);
+        member.getEvents().add(this);
+        return this;
+    }
+
+    public Event removeMember(Member member) {
+        this.members.remove(member);
+        member.getEvents().remove(this);
         return this;
     }
 
@@ -344,10 +366,9 @@ public class Event implements Serializable {
             ", nonmembers='" + getNonmembers() + "'" +
             ", confirmed='" + getConfirmed() + "'" +
             ", cancelled='" + getCancelled() + "'" +
-            ", recurring='" + getRecurring() + "'" +
             ", minimum=" + getMinimum() +
             ", maximum=" + getMaximum() +
-            ", bookLimit=" + getBookLimit() +
+            ", ideal=" + getIdeal() +
             ", cost=" + getCost() +
             ", share=" + getShare() +
             "}";

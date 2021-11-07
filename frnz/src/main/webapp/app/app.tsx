@@ -51,9 +51,11 @@ export const App = () => {
           />
         </ErrorBoundary>
         <div className="container-fluid view-container" id="app-view-container">
-          <ErrorBoundary>
-            <AppRoutes />
-          </ErrorBoundary>
+          <Card className="jh-card">
+            <ErrorBoundary>
+              <AppRoutes />
+            </ErrorBoundary>
+          </Card>
           <Footer />
         </div>
       </div>

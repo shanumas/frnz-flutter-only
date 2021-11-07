@@ -32,7 +32,7 @@ export const ModeratorDetail = (props: RouteComponentProps<{ id: string }>) => {
           <dt>
             <Translate contentKey="frnzApp.moderator.gang">Gang</Translate>
           </dt>
-          <dd>{moderatorEntity.gang ? moderatorEntity.gang.name : ''}</dd>
+          <dd>{moderatorEntity.gang ? moderatorEntity.gang.handle : ''}</dd>
           <dt>
             <Translate contentKey="frnzApp.moderator.member">Member</Translate>
           </dt>

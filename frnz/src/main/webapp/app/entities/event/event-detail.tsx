@@ -78,12 +78,6 @@ export const EventDetail = (props: RouteComponentProps<{ id: string }>) => {
           </dt>
           <dd>{eventEntity.cancelled ? 'true' : 'false'}</dd>
           <dt>
-            <span id="recurring">
-              <Translate contentKey="frnzApp.event.recurring">Recurring</Translate>
-            </span>
-          </dt>
-          <dd>{eventEntity.recurring ? 'true' : 'false'}</dd>
-          <dt>
             <span id="minimum">
               <Translate contentKey="frnzApp.event.minimum">Minimum</Translate>
             </span>
@@ -96,11 +90,11 @@ export const EventDetail = (props: RouteComponentProps<{ id: string }>) => {
           </dt>
           <dd>{eventEntity.maximum}</dd>
           <dt>
-            <span id="bookLimit">
-              <Translate contentKey="frnzApp.event.bookLimit">Book Limit</Translate>
+            <span id="ideal">
+              <Translate contentKey="frnzApp.event.ideal">Ideal</Translate>
             </span>
           </dt>
-          <dd>{eventEntity.bookLimit}</dd>
+          <dd>{eventEntity.ideal}</dd>
           <dt>
             <span id="cost">
               <Translate contentKey="frnzApp.event.cost">Cost</Translate>
@@ -117,14 +111,6 @@ export const EventDetail = (props: RouteComponentProps<{ id: string }>) => {
             <Translate contentKey="frnzApp.event.place">Place</Translate>
           </dt>
           <dd>{eventEntity.place ? eventEntity.place.name : ''}</dd>
-          <dt>
-            <Translate contentKey="frnzApp.event.participant">Participant</Translate>
-          </dt>
-          <dd>{eventEntity.participant ? eventEntity.participant.member : ''}</dd>
-          <dt>
-            <Translate contentKey="frnzApp.event.gang">Gang</Translate>
-          </dt>
-          <dd>{eventEntity.gang ? eventEntity.gang.name : ''}</dd>
         </dl>
         <Button tag={Link} to="/event" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}
