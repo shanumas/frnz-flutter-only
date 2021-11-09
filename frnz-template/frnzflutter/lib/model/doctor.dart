@@ -113,46 +113,46 @@ class Doctors {
 final doctors = [
   Doctor(
     name: 'Tawfiq Bahri',
-    speciality: 'Family Doctor, Cardiologist',
+    speciality: 'Badminton, Social guy',
     about:
         'Candidate of medical sciences, gynecologist, specialist with experience more than 5 years.',
-    avatar: 'assets/images/icon_doctor_1.png',
+    avatar: 'assets/images/baby.png',
     rating: 4.5,
     price: 100,
   ),
   Doctor(
     name: 'Trashae Hubbard',
-    speciality: 'Family Doctor, Therapist',
+    speciality: 'Badminton, Fast food',
     about:
         'Candidate of medical sciences, gynecologist, specialist with experience more than 5 years.',
-    avatar: 'assets/images/icon_doctor_2.png',
+    avatar: 'assets/images/baby.png',
     rating: 4.7,
     price: 90,
   ),
   Doctor(
     name: 'Jesus Moruga',
-    speciality: 'Family Doctor, Therapist',
+    speciality: 'Badminton, Techie',
     about:
         'Candidate of medical sciences, gynecologist, specialist with experience more than 5 years.',
-    avatar: 'assets/images/icon_doctor_3.png',
+    avatar: 'assets/images/baby.png',
     rating: 4.3,
     price: 100,
   ),
   Doctor(
     name: 'Gabriel Moreira',
-    speciality: 'Family Doctor, Therapist',
+    speciality: 'Badminton, Social guy',
     about:
         'Candidate of medical sciences, gynecologist, specialist with experience more than 5 years.',
-    avatar: 'assets/images/icon_doctor_4.png',
+    avatar: 'assets/images/baby.png',
     rating: 4.7,
     price: 100,
   ),
   Doctor(
     name: 'Liana Lee',
-    speciality: 'Family Doctor, Therapist',
+    speciality: 'Badminton, Party animal',
     about:
         'Candidate of medical sciences, gynecologist, specialist with experience more than 5 years.',
-    avatar: 'assets/images/icon_doctor_5.png',
+    avatar: 'assets/images/baby.png',
     rating: 4.7,
     price: 100,
   ),

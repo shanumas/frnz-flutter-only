@@ -68,19 +68,19 @@ class DrawerPage extends StatelessWidget {
                 ),
                 _drawerItem(
                   image: 'person',
-                  text: 'my_doctors',
+                  text: 'my_friends',
                   onTap: () =>
                       Navigator.of(context).pushNamed(Routes.myDoctors),
                 ),
                 _drawerItem(
                   image: 'calendar',
-                  text: 'my_appointments',
+                  text: 'my_events',
                   onTap: () =>
                       Navigator.of(context).pushNamed(Routes.myAppointments),
                 ),
                 _drawerItem(
                   image: 'hospital',
-                  text: 'hospitals',
+                  text: 'places',
                   onTap: () {},
                 ),
               ],
