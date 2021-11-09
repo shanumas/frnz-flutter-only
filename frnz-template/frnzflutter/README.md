@@ -1,4 +1,4 @@
-# MedAPP
+# frnzflutter
 
 A new Flutter project.
 

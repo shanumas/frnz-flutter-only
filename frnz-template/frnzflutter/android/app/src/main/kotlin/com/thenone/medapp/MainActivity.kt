@@ -1,4 +1,4 @@
-package com.thenone.medapp
+package com.thenone.frnzflutter
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

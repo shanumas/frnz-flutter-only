@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
           child: child!,
         );
       },
-      title: 'MedAPP',
+      title: 'frnzflutter',
       initialRoute: Routes.splash,
       onGenerateRoute: RouteGenerator.generateRoute,
       localizationsDelegates: [

@@ -127,7 +127,7 @@
     "about_app": "About FRNZ",
     "pricacy_policy": "Privacy Policy",
     "help_and_support": "Help and support",
-    "rate_the_app": "Rate MedAPP",
+    "rate_the_app": "Rate FRNZ",
     "accounts": "Accounts",
     "logout": "Logout",
     "all_notifications": "All notifications",
@@ -219,6 +219,6 @@
     "notifications": "Notifications",
     "hello_again": "Hello again",
     "login_to_your_account_to_continue": "Login to your account to continue",
-    "welcome_to_app_name": "Welcome to MedAPP",
+    "welcome_to_app_name": "Welcome to FRNZ",
     "create_an_account_to_get_started": "Create an account to get started"
 }
